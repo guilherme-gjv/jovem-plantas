@@ -1,0 +1,30 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input CreatePlantInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Mutation {
+  createPlant(createPlantInput: CreatePlantInput!): Plant!
+  removePlant(id: Int!): Plant!
+  updatePlant(updatePlantInput: UpdatePlantInput!): Plant!
+}
+
+type Plant {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Query {
+  plant(id: Int!): Plant!
+  plants: [Plant!]!
+}
+
+input UpdatePlantInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
