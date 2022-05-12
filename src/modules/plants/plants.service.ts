@@ -1,26 +1,56 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreatePlantInput } from './dto/create-plant.input';
 import { UpdatePlantInput } from './dto/update-plant.input';
+import { Plant } from './entities/plant.entity';
 
 @Injectable()
 export class PlantsService {
-  create(createPlantInput: CreatePlantInput) {
-    return 'This action adds a new plant';
+  constructor(
+    @InjectRepository(Plant)
+    private plantRepository: Repository<Plant>,
+  ) {
+    return;
+  }
+  async create(data: CreatePlantInput): Promise<Plant> {
+    const plant = this.plantRepository.create(data);
+    const saved = await this.plantRepository.save(plant);
+    return saved;
   }
 
-  findAll() {
-    return `This action returns all plants`;
+  async findAll(): Promise<Plant[]> {
+    const plants = await this.plantRepository.find();
+    return plants;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} plant`;
+  async findOne(id: string): Promise<Plant> {
+    const plant = this.plantRepository.findOne(id);
+    if (!plant) {
+      throw new NotFoundException('plant not found');
+    }
+    return plant;
   }
 
-  update(id: number, updatePlantInput: UpdatePlantInput) {
-    return `This action updates a #${id} plant`;
+  async update(id: string, data: UpdatePlantInput) {
+    const plant = await this.findOne(id);
+    const updatedPlant = await this.plantRepository.save(
+      Object.assign(plant, data),
+    );
+    return updatedPlant;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} plant`;
+  async remove(id: string): Promise<void> {
+    const plant = await this.findOne(id);
+    const deleted = await this.plantRepository.delete(plant);
+    if (!deleted) {
+      throw new InternalServerErrorException(
+        'cannot delete the plant: ' + plant.name,
+      );
+    }
   }
 }
