@@ -3,19 +3,22 @@
 # ------------------------------------------------------
 
 input CreatePlantInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  flowerColor: String!
+  name: String!
 }
 
 type Mutation {
   createPlant(createPlantInput: CreatePlantInput!): Plant!
   removePlant(id: Int!): Plant!
-  updatePlant(updatePlantInput: UpdatePlantInput!): Plant!
+  updatePlant(id: String!, updatePlantInput: UpdatePlantInput!): Plant!
 }
 
 type Plant {
+  flowerColor: String!
+
   """Example field (placeholder)"""
-  exampleField: Int!
+  id: Int!
+  name: String!
 }
 
 type Query {
@@ -24,7 +27,7 @@ type Query {
 }
 
 input UpdatePlantInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
+  flowerColor: String
+  id: ID!
+  name: String
 }
