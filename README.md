@@ -1,3 +1,6 @@
+<h1>Jovem Plantas</h1>
+<p>Um mini sistema CRUD para testar funcionalidades de Nest.js</p>
+
 <p align="center">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
 </p>
