@@ -1,18 +1,19 @@
+/* eslint-disable prettier/prettier */
 import { Controller, Get, Param } from '@nestjs/common';
+import { Plant } from './entities/plant.entity';
+import { PlantsService } from './plants.service';
 
 @Controller('plantas')
 export class PlantController {
-  constructor() {
-    return;
-  }
+  constructor(private readonly plantService: PlantsService) {}
 
   @Get(':id')
-  getHello(@Param('id') id: string): string {
-    return 'oie' + id;
+  getHello(@Param('id') id: string): Promise<Plant> {
+    return this.plantService.findOne(id);
   }
 
   @Get()
-  getPlants(): string {
-    return 'Planta rock';
+  getPlants(): Promise<Plant[]> {
+    return this.plantService.findAll();
   }
 }
