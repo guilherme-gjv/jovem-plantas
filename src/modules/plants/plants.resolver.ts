@@ -9,27 +9,33 @@ export class PlantsResolver {
   constructor(private readonly plantsService: PlantsService) {}
 
   @Mutation(() => Plant)
-  createPlant(@Args('createPlantInput') createPlantInput: CreatePlantInput) {
+  async createPlant(
+    @Args('createPlantInput') createPlantInput: CreatePlantInput,
+  ) {
     return this.plantsService.create(createPlantInput);
   }
 
   @Query(() => [Plant], { name: 'plants' })
-  findAll() {
+  async findAll() {
     return this.plantsService.findAll();
   }
 
   @Query(() => Plant, { name: 'plant' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
+  async findOne(@Args('id', { type: () => Int }) id: string) {
     return this.plantsService.findOne(id);
   }
 
   @Mutation(() => Plant)
-  updatePlant(@Args('updatePlantInput') updatePlantInput: UpdatePlantInput) {
-    return this.plantsService.update(updatePlantInput.id, updatePlantInput);
+  async updatePlant(
+    @Args('updatePlantInput') updatePlantInput: UpdatePlantInput,
+    @Args('id') id: string,
+  ) {
+    const plant = await this.plantsService.update(id, updatePlantInput);
+    return plant;
   }
 
   @Mutation(() => Plant)
-  removePlant(@Args('id', { type: () => Int }) id: number) {
+  async removePlant(@Args('id', { type: () => Int }) id: string) {
     return this.plantsService.remove(id);
   }
 }

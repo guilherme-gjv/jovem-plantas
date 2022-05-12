@@ -1,8 +1,17 @@
 import { CreatePlantInput } from './create-plant.input';
-import { InputType, Field, Int, PartialType } from '@nestjs/graphql';
+import { Field, ID, InputType, PartialType } from '@nestjs/graphql';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 @InputType()
 export class UpdatePlantInput extends PartialType(CreatePlantInput) {
-  @Field(() => Int)
-  id: number;
+  @Field(() => ID)
+  id: string;
+
+  @IsString()
+  @IsNotEmpty()
+  name: string;
+
+  @IsString()
+  @IsNotEmpty()
+  flowerColor: string;
 }
